@@ -1,0 +1,44 @@
+mkdir -p ~/.chainlink-moonbeam && cd ~/.chainlink-moonbeam
+
+docker run -d --name chainlink_postgres_db \
+    --volume chainlink_postgres_data:/var/lib/postgresql/data \
+    -e 'POSTGRES_PASSWORD=pass123456' \
+    -e 'POSTGRES_USER=chainlink' \
+    --network host \
+    -t postgres:11
+
+echo "ROOT=/chainlink
+LOG_LEVEL=debug
+ETH_CHAIN_ID=1287
+MIN_OUTGOING_CONFIRMATIONS=2
+LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088
+CHAINLINK_TLS_PORT=0
+SECURE_COOKIES=false
+GAS_UPDATER_ENABLED=false
+ALLOW_ORIGINS=*
+ETH_URL=wss://wss.api.moonbase.moonbeam.network
+DATABASE_URL=postgresql://chainlink:pass123456@localhost:5432/chainlink?sslmode=disable
+MINIMUM_CONTRACT_PAYMENT=0" > ~/.chainlink-moonbeam/.env
+
+
+touch .api
+
+echo "rafat.hsn@gmail.com" > ~/.chainlink-moonbeam/.api
+echo "pass123456" >> ~/.chainlink-moonbeam/.api
+
+touch .password
+
+echo "pass123456" > ~/.chainlink-moonbeam/.password
+
+docker run -d --name chainlink_oracle_node \
+  --volume $(pwd):/chainlink \
+  --env-file=.env \
+  --network host \
+  -t smartcontract/chainlink:0.9.2 \
+    local n \
+    -p /chainlink/.password \
+    -a /chainlink/.api
+
+docker logs --tail 50 {CONTAINER-ID} #Logs progressing
+
+
