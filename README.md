@@ -1,6 +1,6 @@
 # Fetching Offchain data into a Moonbase Alpha Solidity Contract
 
-Our initial idea was to use a custom parachain that uses offchain workers to bring in grid data and uses XCM to communicate with moonbase alpha. We have had no issues getting off-chain workers to work in stand alone substrate node template (Available here https://github.com/polkadotrafat/substrate-offchain-worker-demo ), we ran into several configuration issues while trying to run it on cumulus parachain template. While we are working to fix the issue, we decided to use chainlink oracle node to bring grid data directly into our solidity contracts on moonbase alpha testnet.
+Our initial idea was to use a custom parachain that uses offchain workers to bring in grid data and uses XCM to communicate with moonbase alpha. We have had no issues getting off-chain workers to work in stand alone substrate node template (Available here https://github.com/polkadotrafat/substrate-offchain-worker-demo ). However, we ran into several configuration issues while trying to run it on cumulus parachain template. While we are working to fix the issue, we decided to use chainlink oracle node to bring grid data directly into our solidity contracts on moonbase alpha testnet.
 
 ### Current Solution : Chainlink Node on Moonbase Alpha Testnet
 
